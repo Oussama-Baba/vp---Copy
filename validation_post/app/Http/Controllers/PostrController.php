@@ -8,6 +8,6 @@ class PostrController extends Controller
 {
     public function index(){
 
-        return view('admincontent.post');
+        return view('admincontent.table.post');
     }
 }

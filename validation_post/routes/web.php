@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostrController;
+use App\Http\Controllers\CommentController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,8 +25,10 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 Route::get('/home', [HomeController::class,'index'])->name('home.index');
 //panel admin show content inside the panel admin
-Route::get('/admin/user', [UserController::class,'index'])->name('usercontent.index');
-Route::get('/admin/post', [PostrController::class,'index'])->name('postcontent.index');
+Route::get('/admin/user', [UserController::class,'index'])->name('user.index');
+Route::get('/admin/post', [PostrController::class,'index'])->name('post.index');
+Route::get('/admin/comment', [CommentController::class,'index'])->name('comment.index');
+
 
 
 
