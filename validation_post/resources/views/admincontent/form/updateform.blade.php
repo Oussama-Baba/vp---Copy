@@ -20,7 +20,7 @@
     <h1 class="mb-4 text-center">Mettre à jour les informations de l'utilisateur</h1>
 
     <!-- Form -->
-    <form class="row g-3 p-4 bg-light shadow" style="width: 1000px; border-radius: 8px;" method="POST" action="{{ route('User.update', $user->id) }}" enctype="multipart/form-data">
+    <form class="row g-3 p-4 bg-light shadow" style="width: 1000px; border-radius: 8px;" action="{{ route('User.update', $user->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="col-md-6">
@@ -54,6 +54,7 @@
             <button type="submit" class="btn btn-success">Mettre à jour</button>
         </div>
     </form>
-</div>
+
+
 
 @endsection

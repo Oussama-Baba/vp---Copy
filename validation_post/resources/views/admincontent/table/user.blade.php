@@ -5,13 +5,20 @@
 @section('content')
 <div class="container-xl">
 
+    <!-- resources/views/partials/flash-messages.blade.php -->
 
+@if(session('success'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Success!</strong> {{ session('success') }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+@endif
 
     <div class="col-sm-4 offset-sm-8 text-sm-right" style="margin-top: 100px;">
         <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('User.create') }}'">Ajouter</button>
     </div>
-
-
     <div class="table-responsive">
         <div class="table-wrapper">
             <div class="table-title">

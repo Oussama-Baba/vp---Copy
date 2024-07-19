@@ -41,16 +41,27 @@ class UserController extends Controller
          return view('admincontent.form.updateform', compact('user'));
      }
 
-     public function update(UserRequest $request, User $user)
-     {
-         $formfield = $request->validated();
+     public function update(UserRequest $request, string $id)
+    {
+        $user = User::findOrFail($id);
+        $formfield = $request->validated();
 
-         if ($request->has('password')) {
-             $formfield['password'] = Hash::make($request->password);
-         }
-         $user->fill($formfield)->save();
-         return redirect()->route('User.index')->with('success', 'Vos données ont été mises à jour avec succès.');
-     }
+        if ($request->filled('password')) {
+            $formfield['password'] = Hash::make($request->password);
+        } else {
+            unset($formfield['password']);
+        }
+        $user->update($formfield);
+
+        return redirect()->route('User.index')->with('success', 'Vos données ont été mises à jour avec succès.');
+    }
+    public function destroy(string $id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('User.index')->with('success', 'Utilisateur supprimé avec succès.');
+    }
 
 
     }

@@ -23,22 +23,27 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
-
         $userId = $this->route('User');
-
-
-
         return [
             'name' => 'required|string|max:255',
-            'email' => [
-                'required',
-                'email',
-                Rule::unique('users')->ignore($userId),
-            ],
+            'email' => 'required|string|email|max:255|unique:users,email,' . $this->route('User'),
+            'role' => 'required|string|in:client,admin',
             'password' => $this->isMethod('post') ? 'required|string|min:8|confirmed' : 'nullable|string|min:8|confirmed',
             'telephone' => 'nullable|string|max:15',
             'role' => 'required|in:client,admin',
         ];
+        if ($this->isMethod('post')) {
+            $rules['password'] = 'required|string|min:8|confirmed';
+        }
+
+        if ($this->isMethod('put')) {
+            $rules['password'] = 'nullable|string|min:8|confirmed';
+        }
+
+        return $rules;
     }
+
+
+
 
 }
