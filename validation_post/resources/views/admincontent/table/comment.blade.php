@@ -4,7 +4,9 @@
 
 @section('content')
 <div class="container-xl">
-    <button type="button" class="btn btn-success ">Ajouter</button>
+    <div class="col-sm-4 offset-sm-8 text-sm-right" style="margin-top: 100px;">
+        <button type="button" class="btn btn-success">Ajouter</button>
+    </div>
     <div class="table-responsive">
         <div class="table-wrapper">
             <div class="table-title">

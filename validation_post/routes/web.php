@@ -28,6 +28,8 @@ Route::get('/home', [HomeController::class,'index'])->name('home.index');
 Route::get('/admin/user', [UserController::class,'index'])->name('user.index');
 Route::get('/admin/post', [PostrController::class,'index'])->name('post.index');
 Route::get('/admin/comment', [CommentController::class,'index'])->name('comment.index');
+Route::resource('User',UserController::class);
+
 
 
 

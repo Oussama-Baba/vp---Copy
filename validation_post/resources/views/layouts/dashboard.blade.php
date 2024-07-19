@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="/assets/css/table.css">
+    <link rel="stylesheet" href="/assets/css/usercart">
     <!-- Custom CSS -->
 </head>
 <body class="navbar-dark">
@@ -27,15 +28,8 @@
             </div>
 
 
-
-
-
     <script src="{{ asset('/assets/vendors/core/core.js') }}"></script>
-
     <script src="{{ asset('/assets/vendors/feather-icons/feather.min.js') }}"></script>
     <script src="{{ asset('/assets/js/template.js') }}"></script>
-
-
-    <!-- endinject -->
 </body>
 </html>
