@@ -50,8 +50,8 @@
                 <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
             </select>
         </div>
-        <div class="col-12">
-            <button type="submit" class="btn btn-success">Mettre à jour</button>
+        <div class="col-12 text-right">
+            <button type="submit" class="btn btn-success"  style="margin-top: 30px;">Mettre à jour</button>
         </div>
     </form>
 

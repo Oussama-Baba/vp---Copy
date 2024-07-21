@@ -51,8 +51,8 @@
                 <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
             </select>
         </div>
-        <div class="col-12">
-            <button type="submit" class="btn btn-success">Ajouter</button>
+        <div class="col-12 text-right">
+            <button type="submit" class="btn btn-success" style="margin-top: 30px;">Ajouter</button>
         </div>
     </form>
 </div>

@@ -3,21 +3,31 @@
 @section('title', 'Post Dashboard')
 
 @section('content')
+
+@if(session('success'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Success!</strong> {{ session('success') }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+@endif
+
 <div class="container-xl">
     <div class="col-sm-4 offset-sm-8 text-sm-right" style="margin-top: 100px;">
-        <button type="button" class="btn btn-success">Ajouter</button>
+        <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('Post.create') }}'">Ajouter</button>
     </div>
     <div class="table-responsive">
         <div class="table-wrapper">
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-8">
-                        <h2>Customer <b>Details</b></h2>
+                        <h2>Détails des <b>Posts</b></h2>
                     </div>
                     <div class="col-sm-4">
                         <div class="search-box">
                             <i class="material-icons">&#xE8B6;</i>
-                            <input type="text" class="form-control" placeholder="Search&hellip;">
+                            <input type="text" class="form-control" placeholder="Rechercher&hellip;" id="search">
                         </div>
                     </div>
                 </div>
@@ -25,44 +35,79 @@
             <table class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Name <i class="fa fa-sort"></i></th>
-                        <th>Address</th>
-                        <th>City <i class="fa fa-sort"></i></th>
-                        <th>Pin Code</th>
-                        <th>Country <i class="fa fa-sort"></i></th>
+                        <th>ID</th>
+                        <th>Titre</th>
+                        <th>Description</th>
+                        <th>Média</th>
+                        <th>Client</th>
+                        <th>Statut</th>
+                        <th>Nom de la Page</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
+                @foreach ($posts as $post)
                     <tr>
-                        <td>1</td>
-                        <td>Thomas Hardy</td>
-                        <td>89 Chiaroscuro Rd.</td>
-                        <td>Portland</td>
-                        <td>97219</td>
-                        <td>USA</td>
+                        <td>{{ $post->id }}</td>
+                        <td>{{ $post->title }}</td>
+                        <td>{{ Str::limit($post->description, 50) }}</td>
                         <td>
-                            <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                            <a href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                            <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                            @if($post->media_path)
+                                <img src="{{ asset('storage/' . $post->media_path) }}" alt="Media" style="width: 50px; height: 50px;">
+                            @else
+                                Aucun média
+                            @endif
+                        </td>
+                        <td>{{ $post->user->name }}</td>
+                        <td>{{ $post->status }}</td>
+                        <td>{{ $post->page_name }}</td>
+                        <td>
+                            <a href="{{ route('Post.show', $post->id) }}" class="view" title="Voir" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+                            <a href="{{ route('Post.edit', $post->id) }}" class="edit" title="Modifier" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                            <a href="#" class="delete" title="Supprimer" data-toggle="tooltip" data-id="{{ $post->id }}"><i class="material-icons">&#xE872;</i></a>
+                            <form id="delete-form-{{ $post->id }}" action="{{ route('Post.destroy', $post->id) }}" method="POST" style="display: none;">
+                                @csrf
+                                @method('DELETE')
+                            </form>
                         </td>
                     </tr>
-                    <!-- More rows can be added similarly -->
+                @endforeach
                 </tbody>
             </table>
             <div class="clearfix">
-                <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-                <ul class="pagination">
-                    <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-                    <li class="page-item"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                    <!-- More pagination links -->
-                    <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
-                </ul>
+                <div class="hint-text">
+                    Affichage de <b>{{ $posts->firstItem() }}</b> à <b>{{ $posts->lastItem() }}</b> sur <b>{{ $posts->total() }}</b> entrées
+                </div>
+                {{ $posts->links() }}
             </div>
         </div>
     </div>
 </div>
 @endsection
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.delete').forEach(function(element) {
+            element.addEventListener('click', function(event) {
+                event.preventDefault();
+                const postId = this.getAttribute('data-id');
+                if (confirm('Êtes-vous sûr de vouloir supprimer ce post ?')) {
+                    document.getElementById('delete-form-' + postId).submit();
+                }
+            });
+        });
+    });
+
+    document.getElementById('search').addEventListener('input', function() {
+        const searchValue = this.value.toLowerCase();
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            const title = row.children[1].textContent.toLowerCase();
+            if (title.includes(searchValue)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>

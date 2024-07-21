@@ -12,8 +12,19 @@ use Termwind\Components\Ul;
 
 class UserController extends Controller
 {
-    public function index(){
-        $users = User::latest()->paginate(5);
+    public function index(Request $request)
+    {
+        $query = User::query();
+
+        if ($request->has('search')) {
+            $query->where('name', 'LIKE', "%{$request->search}%")
+                  ->orWhere('email', 'LIKE', "%{$request->search}%")
+                  ->orWhere('telephone', 'LIKE', "%{$request->search}%")
+                  ->orWhere('role', 'LIKE', "%{$request->search}%");
+        }
+
+        $users = $query->latest()->paginate(5);
+
         return view('admincontent.table.user', compact('users'));
     }
 
@@ -24,7 +35,7 @@ class UserController extends Controller
     }
     public function create()
     {
-        return view('admincontent.form.userform');
+        return view('admincontent.form.user_form');
     }
 
     public function store(UserRequest $request)
@@ -38,7 +49,7 @@ class UserController extends Controller
      public function edit(string $id)
      {
         $user = User::findOrFail($id);
-         return view('admincontent.form.updateform', compact('user'));
+         return view('admincontent.form.user_updat_form', compact('user'));
      }
 
      public function update(UserRequest $request, string $id)

@@ -27,10 +27,11 @@
                         <h2>Manages <b>User</b></h2>
                     </div>
                     <div class="col-sm-4">
-                        <div class="search-box">
-                            <i class="material-icons">&#xE8B6;</i>
-                            <input type="text" class="form-control" placeholder="Search&hellip;">
-                        </div>
+                        <form method="GET" action="{{ route('User.index') }}" class="mb-3">
+                            <div class="input-group">
+                                <input type="text" name="search" class="form-control" placeholder="Search&hellip;" value="{{ request('search') }}">
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -58,7 +59,12 @@
                         <td>
                             <a href="{{ route('User.show',  $user->id) }}" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
                             <a href="{{ route('User.edit',  $user->id) }}" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                            <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                            <a href="#" class="delete" title="Delete" data-toggle="tooltip" data-id="{{ $user->id }}"><i class="material-icons">&#xE872;</i></a>
+
+                            <form id="delete-form-{{ $user->id }}" action="{{ route('User.destroy', $user->id) }}" method="POST" style="display: none;">
+                                @csrf
+                                @method('DELETE')
+                            </form>
                         </td>
                     </tr>
                 @endforeach
@@ -76,7 +82,6 @@
                     @else
                         <li class="page-item"><a href="{{ $users->previousPageUrl() }}" class="page-link"><i class="fa fa-angle-double-left"></i></a></li>
                     @endif
-
                     <!-- Pagination Elements -->
                     @foreach ($users->getUrlRange(1, $users->lastPage()) as $page => $url)
                         @if ($page == $users->currentPage())
@@ -85,7 +90,6 @@
                             <li class="page-item"><a href="{{ $url }}" class="page-link">{{ $page }}</a></li>
                         @endif
                     @endforeach
-
                     <!-- Next Page Link -->
                     @if ($users->hasMorePages())
                         <li class="page-item"><a href="{{ $users->nextPageUrl() }}" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
@@ -98,3 +102,16 @@
     </div>
 </div>
 @endsection
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.delete').forEach(function(element) {
+            element.addEventListener('click', function(event) {
+                event.preventDefault();
+                const userId = this.getAttribute('data-id');
+                if (confirm('Are you sure you want to delete this user?')) {
+                    document.getElementById('delete-form-' + userId).submit();
+                }
+            });
+        });
+    });
+</script>
