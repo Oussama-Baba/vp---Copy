@@ -25,24 +25,25 @@
                         <h2>Détails des <b>Posts</b></h2>
                     </div>
                     <div class="col-sm-4">
-                        <div class="search-box">
-                            <i class="material-icons">&#xE8B6;</i>
-                            <input type="text" class="form-control" placeholder="Rechercher&hellip;" id="search">
-                        </div>
+                        <form method="GET" action="{{ route('Post.index') }}" class="mb-3">
+                            <div class="input-group">
+                                <input type="text" name="search" class="form-control" placeholder="Search&hellip;" value="{{ request('search') }}">
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
             <table class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Titre</th>
-                        <th>Description</th>
-                        <th>Média</th>
-                        <th>Client</th>
-                        <th>Statut</th>
-                        <th>Nom de la Page</th>
-                        <th>Actions</th>
+                        <th>{{ __('ID') }}</th>
+                        <th>{{ __('Titre') }}</th>
+                        <th>{{ __('Description') }}</th>
+                        <th>{{ __('Média') }}</th>
+                        <th>{{ __('Client') }}</th>
+                        <th>{{ __('Statut') }}</th>
+                        <th>{{ __('Nom_de_la_Page') }}</th>
+                        <th>{{ __('Actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -98,16 +99,4 @@
         });
     });
 
-    document.getElementById('search').addEventListener('input', function() {
-        const searchValue = this.value.toLowerCase();
-        const rows = document.querySelectorAll('tbody tr');
-        rows.forEach(row => {
-            const title = row.children[1].textContent.toLowerCase();
-            if (title.includes(searchValue)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    });
 </script>

@@ -14,9 +14,22 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('user')->latest()->paginate(5);
+        $query = Post::query()->with('user');
+
+    if ($search = request('search')) {
+        $query->where(function ($q) use ($search) {
+            $q->where('title', 'like', "%{$search}%")
+              ->orWhere('description', 'like', "%{$search}%")
+              ->orWhere('page_name', 'like', "%{$search}%")
+              ->orWhereHas('user', function ($q) use ($search) {
+                  $q->where('name', 'like', "%{$search}%");
+              });
+        });
+    }
+    $posts = $query->latest()->paginate(5);
         return view('admincontent.table.post', compact('posts'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -51,9 +64,10 @@ class PostController extends Controller
         return redirect()->route('Post.index')->with('success', 'Post créé avec succès.');
     }
 
-    public function show(Post $post)
+    public function show(Post $Post)
     {
-        return view('admincontent.showcart.postcart', compact('post'));
+        $post=$Post;
+        return view('admincontent.showcart.post_cart', compact('post'));
     }
 
     public function edit(string $id)

@@ -31,7 +31,7 @@ class UserController extends Controller
     public function show(string $id): view
     {
         $user = User::findOrFail($id);
-        return view('admincontent.showcart.usercart', compact('user'));
+        return view('admincontent.showcart.user_cart', compact('user'));
     }
     public function create()
     {

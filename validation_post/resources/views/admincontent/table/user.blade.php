@@ -24,7 +24,7 @@
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-8">
-                        <h2>Manages <b>User</b></h2>
+                        <h2>{{ __('Gérer') }} <b>{{ __('Utilisateur') }}</b></h2>
                     </div>
                     <div class="col-sm-4">
                         <form method="GET" action="{{ route('User.index') }}" class="mb-3">
@@ -38,13 +38,13 @@
             <table class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>telephone </th>
-                        <th>Role</th>
-                        <th>Created At </i></th>
-                        <th>Actions</th>
+                        <th>{{ __('Id') }}</th>
+                        <th>{{ __('Nom') }}</th>
+                        <th>{{ __('Email') }}</th>
+                        <th>{{ __('Téléphone') }}</th>
+                        <th>{{ __('Rôle') }}</th>
+                        <th>{{ __('Créé_le') }}</th>
+                        <th>{{ __('Actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
