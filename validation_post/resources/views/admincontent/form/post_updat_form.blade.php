@@ -84,6 +84,12 @@
                     <input type="text" name="page_name" class="form-control" id="inputPageName" value="{{ old('page_name', $post->page_name) }}" placeholder="Entrez le nom de la page">
                 </div>
 
+                 <!-- Colon Hashtags -->
+                 <div class="mb-3">
+                    <label for="inputColonHashtags" class="form-label">Hashtags avec deux-points</label>
+                    <input type="text" name="colon_hashtags" class="form-control" id="inputColonHashtags" value="{{ old('colon_hashtags') }}" placeholder="Entrez les hashtags, séparés par des deux-points">
+                </div>
+
                 <!-- Submit Button -->
                 <div class="text-right" style="margin-top: 30;">
                     <button type="submit" class="btn btn-success">Modifier le post</button>

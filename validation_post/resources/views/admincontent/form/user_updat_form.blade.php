@@ -59,6 +59,33 @@
                     <input type="text" name="telephone" class="form-control" id="inputTelephone" value="{{ old('telephone', $user->telephone) }}" placeholder="Entrez le numéro de téléphone">
                 </div>
 
+                <!-- Nombre de Vidéos -->
+                <div class="mb-3">
+                    <label for="inputNbVedio" class="form-label">Nombre de Vidéos</label>
+                    <input type="number" name="nb_vedio" class="form-control" id="inputNbVedio" value="{{ old('nb_vedio', $user->nb_vedio) }}" placeholder="Entrez le nombre de vidéos">
+                </div>
+
+                <!-- Nombre de Réels -->
+                <div class="mb-3">
+                    <label for="inputNbrReal" class="form-label">Nombre de Réels</label>
+                    <input type="number" name="nbr_real" class="form-control" id="inputNbrReal" value="{{ old('nbr_real', $user->nbr_real) }}" placeholder="Entrez le nombre de réels">
+                </div>
+
+                <!-- Nombre de Posts -->
+                <div class="mb-3">
+                    <label for="inputNbrPost" class="form-label">Nombre de Posts</label>
+                    <input type="number" name="nbr_post" class="form-control" id="inputNbrPost" value="{{ old('nbr_post', $user->nbr_post) }}" placeholder="Entrez le nombre de posts">
+                </div>
+
+                <!-- Logo -->
+                <div class="mb-3">
+                    <label for="inputLogo" class="form-label">Logo</label>
+                    <input type="file" name="logo" class="form-control" id="inputLogo">
+                    @if ($user->logo)
+                        <img src="{{ asset('storage/' . $user->logo) }}" alt="Logo" class="mt-2" style="max-width: 150px;">
+                    @endif
+                </div>
+
                 <!-- Rôle -->
                 <div class="mb-3">
                     <label for="inputRole" class="form-label">Rôle</label>

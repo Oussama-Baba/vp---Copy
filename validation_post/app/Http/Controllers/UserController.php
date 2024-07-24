@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Termwind\Components\Ul;
 
 
@@ -41,6 +42,13 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
          $formfield = $request->validated();
+         if ($request->hasFile('logo')) {
+            $formfield['logo'] = $request->file('logo')->store('logos', 'public');
+        }
+
+        if ($request->filled('password')) {
+            $formfield['password'] = Hash::make($request->password);
+        }
          $user = User::create($formfield);
          return redirect()->route('User.index')->with('success', 'Vos données ont été créées avec succès.');
      }
@@ -56,6 +64,13 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $formfield = $request->validated();
+
+        if ($request->hasFile('logo')) {
+            if ($user->logo && Storage::exists('public/' . $user->logo)) {
+                Storage::delete('public/' . $user->logo);
+            }
+            $formfield['logo'] = $request->file('logo')->store('logos', 'public');
+        }
 
         if ($request->filled('password')) {
             $formfield['password'] = Hash::make($request->password);

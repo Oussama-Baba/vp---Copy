@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class PostController extends Controller
 {
@@ -52,9 +53,10 @@ class PostController extends Controller
             'user_id' => 'required|exists:users,id',
             'status' => 'required|in:processing,accepted,declined',
             'page_name' => 'nullable|string|max:255',
-            'publish_date' => 'required|date'
+            'publish_date' => 'required|date|DATE_ATOM',
+            'colon_hashtags' => 'nullable|string'
         ]);
-
+        $formData['publish_date'] = Carbon::createFromFormat('m-d-Y', $request->input('publish_date'))->format('Y-m-d');
         if ($request->hasFile('media')) {
             $formData['media_path'] = $request->file('media')->store('media', 'public');
         }
@@ -87,7 +89,8 @@ class PostController extends Controller
             'user_id' => 'required|exists:users,id',
             'status' => 'required|in:processing,accepted,declined',
             'page_name' => 'nullable|string|max:255',
-            'publish_date' => 'required|date'
+            'publish_date' => 'required|date',
+            'colon_hashtags' => 'nullable|string'
         ]);
 
 
@@ -115,6 +118,7 @@ class PostController extends Controller
 
         return redirect()->route('Post.index')->with('success', 'Post supprimé avec succès.');
     }
+
 }
 
 

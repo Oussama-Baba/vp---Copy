@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index(){
 
-        return view('client.home');
-    }
+            $posts = Post::where('user_id', auth()->id())->get();
+
+            return view('clientpanel.home', compact('posts'));
+        }
+
 }

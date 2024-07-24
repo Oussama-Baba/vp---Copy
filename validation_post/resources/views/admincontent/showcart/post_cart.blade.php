@@ -3,6 +3,7 @@
 @section('title', 'Instagram-like Post')
 
 @section('content')
+
 <div class="containe1">
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -13,7 +14,12 @@
                 <div class="top">
                     <div class="userDeatils">
                         <div class="profileImg">
-                            <img src="{{ asset('/assets/cart/logo/amanus.jpg') }}" alt="user" class="cover">
+
+                         @if ($post->user->logo)
+                           <img src="{{ asset('storage/' . $post->user->logo) }}" alt="User Logo" class="cover">
+                        @else
+                        <img src="{{ asset('/assets/cart/logo/amanus.jpg') }}" alt="Fallback Logo" class="cover">
+                        @endif
                         </div>
                         <h3>{{ $post->page_name }} <br><span>{{ $post->user->name }}</span></h3>
                     </div>
@@ -44,7 +50,11 @@
                 <h4 class="message">
                     <b>{{ $post->user->name }}</b>
                     {{ $post->description }}
+                      @if($post->colon_hashtags)
+                      <span>{{$post->colon_hashtags}}</span>
+                      @else
                     <span>#example1#exemple2</span>
+                    @endif
                 </h4>
                 <h4 class="comments">View all 546 comments</h4>
                 <div class="addComments">

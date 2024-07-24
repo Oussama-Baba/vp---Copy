@@ -29,6 +29,10 @@ Route::get('/admin/post', [PostController::class,'index'])->name('post.index');
 Route::get('/admin/comment', [CommentController::class,'index'])->name('comment.index');
 Route::resource('User',UserController::class);
 Route::resource('Post',PostController::class);
+Route::middleware('auth')->group(function () {
+    Route::get('/my-cart', [HomeController::class, 'index'])->name('client.index');
+});
+
 
 
 

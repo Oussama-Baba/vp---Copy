@@ -24,6 +24,10 @@ class User extends Authenticatable
         'password',
         'role',
         'telephone',
+        'nb_vedio' ,
+        'nbr_real',
+        'nbr_post',
+        'logo'
     ];
     public function posts()
     {

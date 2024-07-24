@@ -31,6 +31,10 @@ class UserRequest extends FormRequest
             'password' => $this->isMethod('post') ? 'required|string|min:8|confirmed' : 'nullable|string|min:8|confirmed',
             'telephone' => 'nullable|string|max:15',
             'role' => 'required|in:client,admin',
+            'nb_vedio' => 'nullable|integer|min:0',
+            'nbr_real' => 'nullable|integer|min:0',
+            'nbr_post' => 'nullable|integer|min:0',
+            'logo' => 'nullable|file|mimes:jpeg,png,jpg|max:2048'
         ];
         if ($this->isMethod('post')) {
             $rules['password'] = 'required|string|min:8|confirmed';
