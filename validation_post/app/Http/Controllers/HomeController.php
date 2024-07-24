@@ -7,11 +7,31 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index(){
+    public function index(Request $request)
+    {
+        $status = $request->query('status');
 
+        if ($status === 'processing') {
+            $posts = Post::where('user_id', auth()->id())
+                         ->where('status', 'processing')
+                         ->get();
+        } else {
             $posts = Post::where('user_id', auth()->id())->get();
-
-            return view('clientpanel.home', compact('posts'));
         }
+
+        return view('clientpanel.home', compact('posts'));
+    }
+
+
+     public function accept(Post $post){
+         $post->update(['status' => 'accepted']);
+        return redirect()->back()->with('success', 'Post accepted successfully.');
+       }
+
+     public function decline(Post $post)
+     {
+    $post->update(['status' => 'declined']);
+    return redirect()->back()->with('success', 'Post declined successfully.');
+    }
 
 }

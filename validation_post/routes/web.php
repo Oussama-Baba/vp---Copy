@@ -31,6 +31,9 @@ Route::resource('User',UserController::class);
 Route::resource('Post',PostController::class);
 Route::middleware('auth')->group(function () {
     Route::get('/my-cart', [HomeController::class, 'index'])->name('client.index');
+    Route::patch('/posts/{post}/accept', [HomeController::class, 'accept'])->name('posts.accept');
+    Route::patch('/posts/{post}/decline', [HomeController::class, 'decline'])->name('posts.decline');
+
 });
 
 

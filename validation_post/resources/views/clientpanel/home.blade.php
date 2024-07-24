@@ -1,9 +1,34 @@
+
 @extends('layouts.home')
 
-@section('title', 'client post')
+@section('title', 'Client Post')
 
 @section('content')
 <h1>My Cart</h1>
+
+<!-- Logout Button -->
+<form method="POST" action="{{ route('logout') }}" class="mb-4">
+    @csrf
+    <button type="submit" class="btn btn-primary btn-lg">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
+</form>
+<!-- Filter Toggle Switch -->
+
+<form method="GET" action="{{ route('client.index') }}" class="mb-4">
+    <div class="custom-toggle">
+        <input type="checkbox" id="post-filter" name="status" value="processing" {{ request()->get('status') === 'processing' ? 'checked' : '' }} onchange="this.form.submit()">
+        <label for="post-filter">
+            <span class="slider"></span>
+        </label>
+    </div>
+    <span>Show Only Processing</span>
+</form>
+
+
+
+
+
 
 @if($posts->isEmpty())
     <p>Your cart is empty.</p>
@@ -14,7 +39,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <!-- Instagram-like Post Card -->
-                    <div class="card">
+                    <div class="card {{ $post->status }}">
                         <!-- Profile Header -->
                         <div class="top">
                             <div class="userDeatils">
@@ -48,7 +73,6 @@
                                 <img src="{{ asset('/assets/cart/logo/bookmark.png') }}" alt="bookmark">
                             </div>
                         </div>
-
                         <!-- Post Details -->
                         <h4 class="likes">5,489 likes</h4>
                         <h4 class="message">
@@ -68,6 +92,31 @@
                             <input type="text" class="text" placeholder="Add a comment...">
                         </div>
                         <h5 class="postTime">{{ $post->publish_date }}</h5>
+
+                        <!-- Display Post Status -->
+                        @if ($post->status == 'accepted')
+                        <div class="status accepted">
+                            Accepted
+                        </div>
+                        @elseif ($post->status == 'declined')
+                        <div class="status declined">
+                            Declined
+                        </div>
+                        @else
+                        <!-- Accept and Decline Buttons -->
+                        <div class="action-btns">
+                            <form action="{{ route('posts.accept', $post) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="btn btn-success">Accept</button>
+                            </form>
+                            <form action="{{ route('posts.decline', $post) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="btn btn-danger">Decline</button>
+                            </form>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -199,6 +248,49 @@
         font-weight: 500;
         color: #777;
     }
+    .status {
+        margin-top: 10px;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-align: center;
+    }
+    .status.accepted {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    .status.declined {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+    .action-btns {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+    .btn {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .btn-success {
+        background-color: #28a745;
+        color: white;
+    }
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+    .btn-success:hover {
+        background-color: #218838;
+    }
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+
 </style>
 
 <!-- Inline JavaScript -->
