@@ -4,12 +4,11 @@
 @section('title', 'Client Post')
 
 @section('content')
-<h1>My Cart</h1>
 
-<!-- Logout Button -->
+
 <form method="POST" action="{{ route('logout') }}" class="mb-4">
     @csrf
-    <button type="submit" class="btn btn-primary btn-lg">
+    <button type="submit" class="btn btn-primary ">
         <i class="fas fa-sign-out-alt"></i> Logout
     </button>
 </form>
@@ -18,7 +17,7 @@
 <form method="GET" action="{{ route('client.index') }}" class="mb-4">
     <div class="custom-toggle">
         <input type="checkbox" id="post-filter" name="status" value="processing" {{ request()->get('status') === 'processing' ? 'checked' : '' }} onchange="this.form.submit()">
-        <label for="post-filter">
+        <label for="post-filter" class="toggle-label">
             <span class="slider"></span>
         </label>
     </div>
@@ -26,21 +25,16 @@
 </form>
 
 
-
-
-
-
 @if($posts->isEmpty())
     <p>Your cart is empty.</p>
 @else
+
     @foreach($posts as $post)
     <div class="containe1">
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    <!-- Instagram-like Post Card -->
                     <div class="card {{ $post->status }}">
-                        <!-- Profile Header -->
                         <div class="top">
                             <div class="userDeatils">
                                 <div class="profileImg">
@@ -56,7 +50,6 @@
                                 <img src="{{ asset('/assets/cart/logo/dot.png') }}" alt="dot">
                             </div>
                         </div>
-
                         <!-- Post Image -->
                         <div class="imgBg">
                             <img src="{{ asset('storage/' . $post->media_path) }}" alt="bg" class="cover">
@@ -81,7 +74,7 @@
                             @if($post->colon_hashtags)
                             <span>{{ $post->colon_hashtags }}</span>
                             @else
-                            <span>#example1 #exemple2</span>
+                            <span>#example1#exemple2</span>
                             @endif
                         </h4>
                         <h4 class="comments">View all 546 comments</h4>
@@ -92,31 +85,35 @@
                             <input type="text" class="text" placeholder="Add a comment...">
                         </div>
                         <h5 class="postTime">{{ $post->publish_date }}</h5>
-
                         <!-- Display Post Status -->
-                        @if ($post->status == 'accepted')
-                        <div class="status accepted">
-                            Accepted
+
+                        @if ($post->status == 'accepted' || $post->status == 'declined')
+                        <div class="status {{ $post->status }}">
+                            {{ ucfirst($post->status) }}
                         </div>
-                        @elseif ($post->status == 'declined')
-                        <div class="status declined">
-                            Declined
+                        <div class="reset">
+                            <form action="{{ route('posts.reset', $post) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="btn btn-warning btn-lg">Reset</button>
+                            </form>
                         </div>
-                        @else
+                    @else
                         <!-- Accept and Decline Buttons -->
                         <div class="action-btns">
                             <form action="{{ route('posts.accept', $post) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
-                                <button type="submit" class="btn btn-success">Accept</button>
+                                <button type="submit" class="btn btn-success btn-lg">Accept</button>
                             </form>
                             <form action="{{ route('posts.decline', $post) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
-                                <button type="submit" class="btn btn-danger">Decline</button>
+                                <button type="submit" class="btn btn-danger btn-lg">Decline</button>
                             </form>
                         </div>
-                        @endif
+                    @endif
+
                     </div>
                 </div>
             </div>
@@ -248,6 +245,7 @@
         font-weight: 500;
         color: #777;
     }
+
     .status {
         margin-top: 10px;
         font-weight: bold;
@@ -269,12 +267,17 @@
         margin-top: 10px;
     }
     .btn {
-        padding: 5px 10px;
+        padding: 9px 40px;
         border: none;
         border-radius: 5px;
         cursor: pointer;
         font-size: 14px;
         font-weight: bold;
+    }
+    .btn-lg {
+        width: 100%;
+        margin-top: 5px;
+
     }
     .btn-success {
         background-color: #28a745;
@@ -284,6 +287,13 @@
         background-color: #dc3545;
         color: white;
     }
+    .btn-warning{
+        background-color: #f7f31f;
+        color: white;
+    }
+    .btn-warning:hover {
+        background-color: #e9e629;
+    }
     .btn-success:hover {
         background-color: #218838;
     }
@@ -291,9 +301,58 @@
         background-color: #c82333;
     }
 
+
+
+    .custom-toggle {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .custom-toggle input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .toggle-label {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px;
+    }
+
+    .toggle-label:before {
+        position: absolute;
+        content: "";
+        height: 25px;
+        width: 25px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+
+    input:checked + .toggle-label {
+        background-color: #2196F3;
+    }
+
+    input:checked + .toggle-label:before {
+        transform: translateX(26px);
+    }
+
+    .toggle-label .slider {
+        display: none;
+    }
 </style>
 
-<!-- Inline JavaScript -->
 <script>
     function likeButton() {
         let heart = document.querySelector('.heart');
