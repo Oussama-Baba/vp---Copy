@@ -35,7 +35,7 @@
                 <a href="{{route('post.index')}}" class="nav-link">Manage Posts</a>
               </li>
               <li class="nav-item">
-                <a href="{{route('comment.index')}}" class="nav-link">Manage Comments</a>
+                <a href="{{route('comments.index')}}" class="nav-link">Manage Comments</a>
               </li>
             </ul>
           </div>

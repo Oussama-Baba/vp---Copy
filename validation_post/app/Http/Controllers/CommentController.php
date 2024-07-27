@@ -8,26 +8,34 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+
+    public function index(Request $request)
     {
-        return view('admincontent.table.comment');
+
+        $search = $request->input('search');
+        $comments = Comment::with('post', 'user')
+            ->when($search, function ($query, $search) {
+                $query->whereHas('post', function ($q) use ($search) {
+                    $q->where('title', 'like', "%{$search}%")
+                      ->orWhere('description', 'like', "%{$search}%")
+                      ->orWhere('page_name', 'like', "%{$search}%");
+                })
+                ->orWhereHas('user', function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%");
+                })
+                ->orWhere('comment', 'like', "%{$search}%");
+            })
+           ->latest()->paginate(5);
+
+        return view('admincontent.table.comment', compact('comments'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+
     }
 
-
-    /**
-     * Display the specified resource.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -59,11 +67,11 @@ class CommentController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $comment = Comment::findOrFail($id);
+        $comment->delete();
+
+        return redirect()->route('comments.index')->with('success', 'Comment deleted successfully.');
     }
 }
