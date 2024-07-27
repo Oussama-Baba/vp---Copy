@@ -9,6 +9,6 @@ class DashboardController extends Controller
     public function index()
     {
 
-        return view('adminpanel.'); // Pass data to the view
+        return view('adminpanel.');
     }
 }

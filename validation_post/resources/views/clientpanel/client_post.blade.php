@@ -113,6 +113,27 @@
                             </form>
                         </div>
                     @endif
+                      <!-- Comment Section -->
+                      <div class="comment-section mt-4">
+                        <h4>Reviews</h4>
+                        <form action="{{ route('comments.store') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="post_id" value="{{ $post->id }}">
+                            <div class="form-group">
+                                <textarea name="comment" class="form-control" placeholder="Write your review here..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                        <div class="comments-list mt-3">
+                            @foreach($post->comments as $comment)
+                            <div class="comment">
+                                <b>{{ $comment->user->name }}</b>: {{ $comment->comment }}
+                            </div>
+                            @endforeach
+                        </div>
+                      </div>
+
+
 
                     </div>
                 </div>
@@ -351,6 +372,58 @@
     .toggle-label .slider {
         display: none;
     }
+
+
+
+
+
+    .comment-section {
+    margin-top: 20px;
+}
+
+.comment-section h4 {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.comments-list {
+    margin-top: 10px;
+}
+
+.comments-list .comment {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #333;
+}
+
+.comment-section form {
+    margin-bottom: 10px;
+}
+
+.form-control {
+    width: 100%;
+    height: 100px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
 </style>
 
 <script>
@@ -366,4 +439,5 @@
         }
     }
 </script>
+
 @endsection

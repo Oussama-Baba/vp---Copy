@@ -34,6 +34,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/posts/{post}/accept', [HomeController::class, 'accept'])->name('posts.accept');
     Route::patch('/posts/{post}/decline', [HomeController::class, 'decline'])->name('posts.decline');
     Route::patch('/posts/{post}/reset', [HomeController::class, 'reset'])->name('posts.reset');
+    //comment
+    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+
 });
 
 
