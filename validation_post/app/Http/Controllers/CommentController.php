@@ -33,23 +33,27 @@ class CommentController extends Controller
 
     public function create()
     {
-
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'post_id' => 'required|exists:posts,id',
-            'comment' => 'required|string|max:255',
-        ]);
-        Comment::create([
-            'post_id' => $request->post_id,
-            'user_id' => Auth::id(),
-            'comment' => $request->comment,
-        ]);
+{
+    $validatedData = $request->validate([
+        'post_id' => 'required|exists:posts,id',
+        'comment' => 'required|string|max:255',
+    ]);
 
-        return redirect()->route('client.index')->with('success', 'Comment added successfully.');
-    }
+    $comment = Comment::create([
+        'post_id' => $validatedData['post_id'],
+        'user_id' => auth()->id(), // Assuming user is authenticated
+        'comment' => $validatedData['comment'],
+    ]);
+
+    // Return JSON response
+    return response()->json([
+        'user_name' => $comment->user->name,
+        'comment' => $comment->comment
+    ]);
+}
 
     /**
      * Show the form for editing the specified resource.

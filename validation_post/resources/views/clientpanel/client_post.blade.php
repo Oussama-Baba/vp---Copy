@@ -86,7 +86,6 @@
                         </div>
                         <h5 class="postTime">{{ $post->publish_date }}</h5>
                         <!-- Display Post Status -->
-
                         @if ($post->status == 'accepted' || $post->status == 'declined')
                         <div class="status {{ $post->status }}">
                             {{ ucfirst($post->status) }}
@@ -114,24 +113,26 @@
                         </div>
                     @endif
                       <!-- Comment Section -->
-                      <div class="comment-section mt-4">
-                        <h4>Reviews</h4>
-                        <form action="{{ route('comments.store') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="post_id" value="{{ $post->id }}">
-                            <div class="form-group">
-                                <textarea name="comment" class="form-control" placeholder="Write your review here..."></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </form>
-                        <div class="comments-list mt-3">
-                            @foreach($post->comments as $comment)
-                            <div class="comment">
-                                <b>{{ $comment->user->name }}</b>: {{ $comment->comment }}
-                            </div>
-                            @endforeach
-                        </div>
-                      </div>
+
+<div class="comment-section mt-4">
+    <h4>Reviews</h4>
+    <form class="comment-form" action="{{ route('comments.store') }}" method="POST">
+        @csrf
+        <input type="hidden" name="post_id" value="{{ $post->id }}">
+        <div class="form-group">
+            <textarea name="comment" class="form-control" placeholder="Write your review here..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <div class="comments-list mt-3">
+        @foreach($post->comments as $comment)
+        <div class="comment">
+            <b>{{ $comment->user->name }}</b>: {{ $comment->comment }}
+        </div>
+        @endforeach
+    </div>
+</div>
+
 
 
 
@@ -425,6 +426,33 @@
 }
 
 </style>
+<script>
+    $(document).ready(function() {
+        // Event delegation to handle comment form submission for each post
+        $(document).on('submit', '.comment-form', function(e) {
+            e.preventDefault();
+            var form = $(this);
+            var formData = form.serialize();
+            var commentsList = form.closest('.comment-section').find('.comments-list');
+
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    // Append the new comment to the specific post's comments list
+                    commentsList.append(
+                        '<div class="comment"><b>' + response.user_name + '</b>: ' + response.comment + '</div>'
+                    );
+                    form.find('textarea[name="comment"]').val(''); // Clear the comment textarea
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
 
 <script>
     function likeButton() {
