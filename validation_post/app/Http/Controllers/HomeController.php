@@ -23,20 +23,22 @@ class HomeController extends Controller
     }
 
 
-    public function accept(Post $post) {
-        $post->update(['status' => 'accepted']);
-        return response()->json(['status' => 'accepted', 'message' => 'Post accepted successfully.']);
-    }
+     public function accept(Post $post){
+         $post->update(['status' => 'accepted']);
+        return redirect()->back()->with('success', 'Post accepted successfully.');
+       }
 
-    public function decline(Post $post) {
-        $post->update(['status' => 'declined']);
-        return response()->json(['status' => 'declined', 'message' => 'Post declined successfully.']);
+     public function decline(Post $post)
+     {
+    $post->update(['status' => 'declined']);
+    return redirect()->back()->with('success', 'Post declined successfully.');
     }
-
-    public function reset(Post $post) {
+    public function reset(Post $post)
+    {
         $post->update(['status' => 'processing']);
-        return response()->json(['status' => 'processing', 'message' => 'Post status reset successfully.']);
+        return redirect()->back();
     }
+  //test
 
 
 }
