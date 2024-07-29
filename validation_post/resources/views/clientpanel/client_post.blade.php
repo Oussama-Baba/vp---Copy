@@ -4,16 +4,9 @@
 @section('title', 'Client Post')
 
 @section('content')
-
-
-<form method="POST" action="{{ route('logout') }}" class="mb-4">
-    @csrf
-    <button type="submit" class="btn btn-primary ">
-        <i class="fas fa-sign-out-alt"></i> Logout
-    </button>
-</form>
 <!-- Filter Toggle Switch -->
-
+<br/><br/><br/>
+<div class="toggle">
 <form method="GET" action="{{ route('client.index') }}" class="mb-4">
     <div class="custom-toggle">
         <input type="checkbox" id="post-filter" name="status" value="processing" {{ request()->get('status') === 'processing' ? 'checked' : '' }} onchange="this.form.submit()">
@@ -23,6 +16,7 @@
     </div>
     <span>Show Only Processing</span>
 </form>
+</div>
 
 
 @if($posts->isEmpty())

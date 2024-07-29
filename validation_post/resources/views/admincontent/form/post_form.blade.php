@@ -49,7 +49,7 @@
                 <!-- Publish Date -->
                 <div class="mb-3">
                     <label for="inputPublishDate" class="form-label">Date de publication</label>
-                    <input type="date" name="publish_date" class="form-control" id="inputPublishDate" value="{{ old('publish_date', $post->publish_date) }}">
+                    <input type="date" name="publish_date" class="form-control" id="inputPublishDate" >
                </div>
 
 

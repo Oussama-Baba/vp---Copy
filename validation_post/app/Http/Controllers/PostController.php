@@ -53,10 +53,10 @@ class PostController extends Controller
             'user_id' => 'required|exists:users,id',
             'status' => 'required|in:processing,accepted,declined',
             'page_name' => 'nullable|string|max:255',
-            'publish_date' => 'required|date|DATE_ATOM',
+            'publish_date' => 'required|date',
             'colon_hashtags' => 'nullable|string'
         ]);
-        $formData['publish_date'] = Carbon::createFromFormat('m-d-Y', $request->input('publish_date'))->format('Y-m-d');
+
         if ($request->hasFile('media')) {
             $formData['media_path'] = $request->file('media')->store('media', 'public');
         }
@@ -92,7 +92,6 @@ class PostController extends Controller
             'publish_date' => 'required|date',
             'colon_hashtags' => 'nullable|string'
         ]);
-
 
         if ($request->hasFile('media')) {
             if ($post->media_path && Storage::exists('public/' . $post->media_path)) {
