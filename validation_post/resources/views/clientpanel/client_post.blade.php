@@ -106,8 +106,8 @@
                             </form>
                         </div>
                     @endif
-                      <!-- Comment Section -->
 
+                      <!-- Comment Section -->
 <div class="comment-section mt-4">
     <h4>Reviews</h4>
     <form class="comment-form" action="{{ route('comments.store') }}" method="POST">
@@ -418,11 +418,9 @@
 .btn-primary:hover {
     background-color: #0056b3;
 }
-
 </style>
 <script>
     $(document).ready(function() {
-        // Event delegation to handle comment form submission for each post
         $(document).on('submit', '.comment-form', function(e) {
             e.preventDefault();
             var form = $(this);
@@ -433,11 +431,10 @@
                 type: 'POST',
                 data: formData,
                 success: function(response) {
-                    // Append the new comment to the specific post's comments list
                     commentsList.append(
                         '<div class="comment"><b>' + response.user_name + '</b>: ' + response.comment + '</div>'
                     );
-                    form.find('textarea[name="comment"]').val(''); // Clear the comment textarea
+                    form.find('textarea[name="comment"]').val('');
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
