@@ -28,9 +28,16 @@
                     </div>
 
                     <!-- Post Image -->
-                    <div class="imgBg">
-                        <img src="{{ asset('storage/' . $post->media_path) }}" alt="bg" class="cover">
-                    </div>
+                    @if ($post->media_path)
+                    @if (Str::endsWith($post->media_path, ['.jpg', '.jpeg', '.png']))
+                        <img src="{{ asset('storage/' . $post->media_path) }}" alt="{{ $post->title }}" width="300">
+                    @elseif (Str::endsWith($post->media_path, ['.mp4']))
+                        <video width="300" controls>
+                            <source src="{{ asset('storage/' . $post->media_path) }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    @endif
+                @endif
 
                     <!-- Post Actions -->
                     <div class="btns">
