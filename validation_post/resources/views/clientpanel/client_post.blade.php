@@ -428,7 +428,6 @@
             var form = $(this);
             var formData = form.serialize();
             var commentsList = form.closest('.comment-section').find('.comments-list');
-
             $.ajax({
                 url: form.attr('action'),
                 type: 'POST',
