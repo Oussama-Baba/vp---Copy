@@ -54,7 +54,19 @@
                         <td>{{ Str::limit($post->description, 50) }}</td>
                         <td>
                             @if($post->media_path)
-                                <img src="{{ asset('storage/' . $post->media_path) }}" alt="Media" style="width: 50px; height: 50px;">
+                                @php
+                                    $fileExtension = pathinfo($post->media_path, PATHINFO_EXTENSION);
+                                    $isImage = in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif']);
+                                @endphp
+
+                                @if($isImage)
+                                    <img src="{{ asset('storage/' . $post->media_path) }}" alt="Media" style="width: 50px; height: 50px;">
+                                @else
+                                    <video style="width: 50px; height: 50px;" controls>
+                                        <source src="{{ asset('storage/' . $post->media_path) }}" type="video/{{ $fileExtension }}" >
+                                        Your browser does not support the video tag.
+                                    </video>
+                                @endif
                             @else
                                 Aucun média
                             @endif
@@ -79,7 +91,7 @@
                 <div class="hint-text">
                     Affichage de <b>{{ $posts->firstItem() }}</b> à <b>{{ $posts->lastItem() }}</b> sur <b>{{ $posts->total() }}</b> entrées
                 </div>
-                {{ $posts->links() }}
+             {{ $posts->links('vendor.pagination.bootstrap-4') }}
             </div>
         </div>
     </div>
