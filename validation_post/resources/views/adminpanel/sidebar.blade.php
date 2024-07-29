@@ -57,16 +57,20 @@
           </a>
           <div class="collapse" id="authPages">
             <ul class="nav sub-menu">
+                <li class="nav-item">
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-link">
+                        Logout
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
               <li class="nav-item">
-                <a href="pages/auth/login.html" class="nav-link">Login</a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/auth/register.html" class="nav-link">Register</a>
+                <a href="{{route('User.create')}}" class="nav-link">Register</a>
               </li>
             </ul>
           </div>
         </li>
-
   </nav>
   <nav class="settings-sidebar">
     <div class="sidebar-body">
