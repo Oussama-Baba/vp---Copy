@@ -68,8 +68,9 @@ class PostController extends Controller
 
     public function show(Post $Post)
     {
-        $post=$Post;
-        return view('admincontent.showcart.post_cart', compact('post'));
+        $post = $Post;
+        $comments = $post->comments()->with('user')->latest()->get();
+        return view('admincontent.showcart.post_cart', compact('post', 'comments'));
     }
 
     public function edit(string $id)

@@ -5,73 +5,80 @@
 @section('content')
 
 <div class="containe1">
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <!-- Instagram-like Post Card -->
-            <div class="card">
-                <!-- Profile Header -->
-                <div class="top">
-                    <div class="userDeatils">
-                        <div class="profileImg">
-
-                         @if ($post->user->logo)
-                           <img src="{{ asset('storage/' . $post->user->logo) }}" alt="User Logo" class="cover">
-                        @else
-                        <img src="{{ asset('/assets/cart/logo/amanus.jpg') }}" alt="Fallback Logo" class="cover">
-                        @endif
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <!-- Instagram-like Post Card -->
+                <div class="card">
+                    <!-- Profile Header -->
+                    <div class="top">
+                        <div class="userDeatils">
+                            <div class="profileImg">
+                                @if ($post->user->logo)
+                                    <img src="{{ asset('storage/' . $post->user->logo) }}" alt="User Logo" class="cover">
+                                @else
+                                    <img src="{{ asset('/assets/cart/logo/amanus.jpg') }}" alt="Fallback Logo" class="cover">
+                                @endif
+                            </div>
+                            <h3>{{ $post->page_name }} <br><span>{{ $post->user->name }}</span></h3>
                         </div>
-                        <h3>{{ $post->page_name }} <br><span>{{ $post->user->name }}</span></h3>
+                        <div class="dot">
+                            <img src="{{ asset('/assets/cart/logo/dot.png') }}" alt="dot">
+                        </div>
                     </div>
-                    <div class="dot">
-                        <img src="{{ asset('/assets/cart/logo/dot.png') }}" alt="dot">
-                    </div>
-                </div>
 
-                <!-- Post Image -->
-                <div class="imgBg">
-                    <img src="{{ asset('storage/' . $post->media_path) }}" alt="bg" class="cover">
-                </div>
+                    <!-- Post Image -->
+                    <div class="imgBg">
+                        <img src="{{ asset('storage/' . $post->media_path) }}" alt="bg" class="cover">
+                    </div>
 
-                <!-- Post Actions -->
-                <div class="btns">
-                    <div class="left">
-                        <img src="{{ asset('/assets/cart/logo/heart.png') }}" alt="heart" class="heart" onclick="likeButton()">
-                        <img src="{{ asset('/assets/cart/logo/comment.png') }}" alt="comment">
-                        <img src="{{ asset('/assets/cart/logo/share.png') }}" alt="share">
+                    <!-- Post Actions -->
+                    <div class="btns">
+                        <div class="left">
+                            <img src="{{ asset('/assets/cart/logo/heart.png') }}" alt="heart" class="heart" onclick="likeButton()">
+                            <img src="{{ asset('/assets/cart/logo/comment.png') }}" alt="comment">
+                            <img src="{{ asset('/assets/cart/logo/share.png') }}" alt="share">
+                        </div>
+                        <div class="right">
+                            <img src="{{ asset('/assets/cart/logo/bookmark.png') }}" alt="bookmark">
+                        </div>
                     </div>
-                    <div class="right">
-                        <img src="{{ asset('/assets/cart/logo/bookmark.png') }}" alt="bookmark">
-                    </div>
-                </div>
 
-                <!-- Post Details -->
-                <h4 class="likes">5,489 likes</h4>
-                <h4 class="message">
-                    <b>{{ $post->user->name }}</b>
-                    {{ $post->description }}
-                      @if($post->colon_hashtags)
-                      <span>{{$post->colon_hashtags}}</span>
-                      @else
-                    <span>#example1#exemple2</span>
-                    @endif
-                </h4>
-                <h4 class="comments">View all 546 comments</h4>
-                <div class="addComments">
-                    <div class="userImg">
-                        <img src="{{ asset('/assets/cart/logo/dot.png') }}"  alt="user" class="cover">
+                    <!-- Post Details -->
+                    <h4 class="likes">5,489 likes</h4>
+                    <h4 class="message">
+                        <b>{{ $post->user->name }}</b>
+                        {{ $post->description }}
+                        @if($post->colon_hashtags)
+                            <span>{{ $post->colon_hashtags }}</span>
+                        @else
+                            <span>#example1 #example2</span>
+                        @endif
+                    </h4>
+                    <h4 class="comments">View all {{ $comments->count() }} comments</h4>
+
+                    <!-- Display Comments -->
+                    @foreach($comments as $comment)
+                        <div class="comment">
+                            <b>{{ $comment->user->name }}</b> {{ $comment->comment }}
+                        </div>
+                    @endforeach
+
+                    <div class="addComments">
+                        <div class="userImg">
+                            <img src="{{ asset('/assets/cart/logo/dot.png') }}" alt="user" class="cover">
+                        </div>
+                        <input type="text" class="text" placeholder="Add a comment...">
                     </div>
-                    <input type="text" class="text" placeholder="Add a comment...">
+                    <h5 class="postTime">{{ $post->publish_date }}</h5>
                 </div>
-                <h5 class="postTime">{{ $post->publish_date }}</h5>
             </div>
         </div>
     </div>
 </div>
-</div>
+
 <!-- Inline CSS -->
 <style>
-
     .containe1 {
         display: flex;
         justify-content: center;
@@ -192,6 +199,12 @@
         margin-top: 10px;
         font-weight: 500;
         color: #777;
+    }
+    .comment {
+        margin-top: 10px;
+        padding-left: 20px;
+        font-size: 0.9em;
+        color: #4d4d4f;
     }
 </style>
 
