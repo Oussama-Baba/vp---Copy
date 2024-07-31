@@ -43,6 +43,7 @@
                         <th>{{ __('Client') }}</th>
                         <th>{{ __('Statut') }}</th>
                         <th>{{ __('Nom_de_la_Page') }}</th>
+                        <th>{{ __('Envoyer Email') }}</th>
                         <th>{{ __('Actions') }}</th>
                     </tr>
                 </thead>
@@ -74,6 +75,9 @@
                         <td>{{ $post->user->name }}</td>
                         <td>{{ $post->status }}</td>
                         <td>{{ $post->page_name }}</td>
+                        <td>
+                            <input type="checkbox" name="send_email" data-id="{{ $post->id }}" class="send-email-checkbox">
+                        </td>
                         <td>
                             <a href="{{ route('Post.show', $post->id) }}" class="view" title="Voir" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
                             <a href="{{ route('Post.edit', $post->id) }}" class="edit" title="Modifier" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
@@ -109,6 +113,6 @@
                 }
             });
         });
-    });
 
 </script>
+

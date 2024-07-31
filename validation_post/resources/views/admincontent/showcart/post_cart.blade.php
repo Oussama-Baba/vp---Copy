@@ -28,16 +28,20 @@
                     </div>
 
                     <!-- Post Image -->
-                    @if ($post->media_path)
-                    @if (Str::endsWith($post->media_path, ['.jpg', '.jpeg', '.png']))
-                        <img src="{{ asset('storage/' . $post->media_path) }}" alt="{{ $post->title }}" width="300">
-                    @elseif (Str::endsWith($post->media_path, ['.mp4']))
-                        <video width="300" controls>
-                            <source src="{{ asset('storage/' . $post->media_path) }}" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    @endif
-                @endif
+                    <div class="imgBg">
+                        @if ($post->media_path)
+                            @if (Str::endsWith($post->media_path, ['.jpg', '.jpeg', '.png']))
+                                <img src="{{ asset('storage/' . $post->media_path) }}" alt="{{ $post->title }}" class="cover zoom">
+                            @elseif (Str::endsWith($post->media_path, ['.mp4']))
+                                <video width="100%" controls class="cover zoom">
+                                    <source src="{{ asset('storage/' . $post->media_path) }}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            @endif
+                        @else
+                            Aucun média
+                        @endif
+                    </div>
 
                     <!-- Post Actions -->
                     <div class="btns">
@@ -143,6 +147,12 @@
         height: 320px;
         margin: 10px 0 15px;
     }
+    .zoom {
+    transition: transform 0.3s ease;
+}
+.zoom:hover {
+    transform: scale(1.5);
+}
     .btns {
         display: flex;
         justify-content: space-between;

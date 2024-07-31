@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use App\Notifications\PostAddedNotification;
 
 class PostController extends Controller
 {
@@ -118,6 +119,9 @@ class PostController extends Controller
 
         return redirect()->route('Post.index')->with('success', 'Post supprimé avec succès.');
     }
+
+
+
 
 }
 

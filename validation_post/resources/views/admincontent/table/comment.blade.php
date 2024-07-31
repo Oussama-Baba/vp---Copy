@@ -65,7 +65,7 @@
                 <div class="hint-text">
                     Affichage de <b>{{ $comments->firstItem() }}</b> à <b>{{ $comments->lastItem() }}</b> sur <b>{{ $comments->total() }}</b> entrées
                 </div>
-                {{ $comments->links() }}
+
             </div>
         </div>
     </div>

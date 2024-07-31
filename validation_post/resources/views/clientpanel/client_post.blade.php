@@ -46,16 +46,21 @@
                         </div>
 
                           <!-- Post Image -->
-                    @if ($post->media_path)
-                    @if (Str::endsWith($post->media_path, ['.jpg', '.jpeg', '.png']))
-                        <img src="{{ asset('storage/' . $post->media_path) }}" alt="{{ $post->title }}" width="300">
-                    @elseif (Str::endsWith($post->media_path, ['.mp4']))
-                        <video width="300" controls>
-                            <source src="{{ asset('storage/' . $post->media_path) }}" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    @endif
-                @endif
+                          <div class="imgBg">
+                            @if ($post->media_path)
+                                @if (Str::endsWith($post->media_path, ['.jpg', '.jpeg', '.png']))
+                                    <img src="{{ asset('storage/' . $post->media_path) }}" alt="{{ $post->title }}" class="cover zoom">
+                                @elseif (Str::endsWith($post->media_path, ['.mp4']))
+                                    <video width="100%" controls class="cover zoom">
+                                        <source src="{{ asset('storage/' . $post->media_path) }}" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                @endif
+                            @else
+                                Aucun média
+                            @endif
+                        </div>
+
 
                         <!-- Post Actions -->
                         <div class="btns">
@@ -199,6 +204,17 @@
         transform: scale(0.6);
         cursor: pointer;
     }
+    .card .top .dot {
+        transform: scale(0.6);
+        cursor: pointer;
+    }
+/* Add the zoom effect */
+.zoom {
+    transition: transform 0.3s ease;
+}
+.zoom:hover {
+    transform: scale(1.5);
+}
     .imgBg {
         position: relative;
         width: 100%;

@@ -18,7 +18,6 @@ class HomeController extends Controller
         } else {
             $posts = Post::where('user_id', auth()->id())->latest()->get();
         }
-
         return view('clientpanel.client_post', compact('posts'));
     }
 
