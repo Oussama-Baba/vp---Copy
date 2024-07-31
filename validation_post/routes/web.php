@@ -34,6 +34,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/posts/{post}/decline', [HomeController::class, 'decline'])->name('posts.decline');
     Route::patch('/posts/{post}/reset', [HomeController::class, 'reset'])->name('posts.reset');
 
+    Route::post('/send-email', [PostController::class, 'sendEmail'])->name('send.email');
+
+
+
 
 
     //comment

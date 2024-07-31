@@ -84,6 +84,15 @@
                     <input type="text" name="colon_hashtags" class="form-control" id="inputColonHashtags" value="{{ old('colon_hashtags') }}" placeholder="Entrez les hashtags, séparés par des deux-points">
                 </div>
 
+                  <!-- Send Email Checkbox -->
+
+                  <div class="mb-3 form-check">
+                    <input type="checkbox" name="email_sent" class="form-check-input" value="1" id="sendEmailCheckbox" {{ old('email_sent') ? 'checked' : '' }}>
+                    <label class="form-check-label" for="sendEmailCheckbox">Envoyer un email au client</label>
+                </div>
+
+
+
                 <!-- Submit Button -->
                 <div class="text-right" style="margin-top: 30;">
                     <button type="submit" class="btn btn-success">Ajouter le post</button>

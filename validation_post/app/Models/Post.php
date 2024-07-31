@@ -10,7 +10,11 @@ class Post extends Model
 {
     use HasFactory,SoftDeletes;
     protected $fillable = [
-        'title', 'description', 'media_path', 'user_id', 'status', 'page_name','colon_hashtags','publish_date'
+        'title', 'description', 'media_path', 'user_id', 'status', 'page_name','colon_hashtags','publish_date', 'email_sent'
+    ];
+
+    protected $casts = [
+        'email_sent' => 'boolean',
     ];
 
     public function user()

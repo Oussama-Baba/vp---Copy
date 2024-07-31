@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon;
-use App\Notifications\PostAddedNotification;
+use App\Mail\PostAddedMail;
+
+use Illuminate\Support\Facades\Mail;
+
 
 class PostController extends Controller
 {
@@ -55,14 +57,22 @@ class PostController extends Controller
             'status' => 'required|in:processing,accepted,declined',
             'page_name' => 'nullable|string|max:255',
             'publish_date' => 'required|date',
-            'colon_hashtags' => 'nullable|string'
+            'colon_hashtags' => 'nullable|string',
+            'email_send' => 'nullable|boolean',
         ]);
 
         if ($request->hasFile('media')) {
             $formData['media_path'] = $request->file('media')->store('media', 'public');
         }
 
-        Post::create($formData);
+
+dd($formData);
+        $post = Post::create($formData);
+        if ($request->input('email_send')) {
+            if ($post->user) {
+                Mail::to($post->user->email)->send(new PostAddedMail($post));
+            }
+        }
 
         return redirect()->route('Post.index')->with('success', 'Post créé avec succès.');
     }
@@ -80,33 +90,46 @@ class PostController extends Controller
         return view('admincontent.form.post_updat_form', compact('post', 'clients'));
     }
 
-    public function update(Request $request, string $id)
-    {
-        $post = Post::findOrFail($id);
 
-        $formData = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'media' => 'nullable|file|mimes:jpeg,png,jpg,mp4|max:2048',
-            'user_id' => 'required|exists:users,id',
-            'status' => 'required|in:processing,accepted,declined',
-            'page_name' => 'nullable|string|max:255',
-            'publish_date' => 'required|date',
-            'colon_hashtags' => 'nullable|string'
-        ]);
+     public function update(Request $request, string $id)
+   {
+    $post = Post::findOrFail($id);
 
-        if ($request->hasFile('media')) {
-            if ($post->media_path && Storage::exists('public/' . $post->media_path)) {
-                Storage::delete('public/' . $post->media_path);
-            }
-            $formData['media_path'] = $request->file('media')->store('media', 'public');
-        } else {
-            $formData['media_path'] = $post->media_path;
+    $formData = $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'media' => 'nullable|file|mimes:jpeg,png,jpg,mp4|max:2048',
+        'user_id' => 'required|exists:users,id',
+        'status' => 'required|in:processing,accepted,declined',
+        'page_name' => 'nullable|string|max:255',
+        'publish_date' => 'required|date',
+        'colon_hashtags' => 'nullable|string',
+        'email_send' => 'nullable|boolean',
+    ]);
+
+    if ($request->hasFile('media')) {
+        if ($post->media_path && Storage::exists('public/' . $post->media_path)) {
+            Storage::delete('public/' . $post->media_path);
         }
-
-        $post->update($formData);
-        return redirect()->route('Post.index')->with('success', 'Post mis à jour avec succès.');
+        $formData['media_path'] = $request->file('media')->store('media', 'public');
+    } else {
+        $formData['media_path'] = $post->media_path;
     }
+
+
+
+
+    $post->update($formData);
+
+    if ($request->input('email_send')) {
+        if ($post->user) {
+            Mail::to($post->user->email)->send(new PostAddedMail($post));
+        }
+    }
+
+    return redirect()->route('Post.index')->with('success', 'Post mis à jour avec succès.');
+}
+
 
     public function destroy(Post $Post)
     {
@@ -119,6 +142,12 @@ class PostController extends Controller
 
         return redirect()->route('Post.index')->with('success', 'Post supprimé avec succès.');
     }
+
+
+
+
+
+
 
 
 
