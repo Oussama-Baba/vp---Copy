@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use App\Mail\PostAddedMail;
+
 use Illuminate\Support\Facades\Mail;
 
 
@@ -72,6 +73,7 @@ class PostController extends Controller
         if ($formData['email_sent']) {
             Mail::to($post->user->email)->send(new PostAddedMail($post));
         }
+
         return redirect()->route('Post.index')->with('success', 'Post créé avec succès.');
     }
 
