@@ -7,7 +7,6 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use App\Mail\PostAddedMail;
-
 use Illuminate\Support\Facades\Mail;
 
 
@@ -58,24 +57,24 @@ class PostController extends Controller
             'page_name' => 'nullable|string|max:255',
             'publish_date' => 'required|date',
             'colon_hashtags' => 'nullable|string',
-            'email_send' => 'nullable|boolean',
+            'email_sent' => 'nullable|boolean',
         ]);
+
 
         if ($request->hasFile('media')) {
             $formData['media_path'] = $request->file('media')->store('media', 'public');
         }
-
-
-dd($formData);
+        $formData['email_sent'] = $request->has('email_sent');
         $post = Post::create($formData);
-        if ($request->input('email_send')) {
-            if ($post->user) {
-                Mail::to($post->user->email)->send(new PostAddedMail($post));
-            }
-        }
 
+
+
+        if ($formData['email_sent']) {
+            Mail::to($post->user->email)->send(new PostAddedMail($post));
+        }
         return redirect()->route('Post.index')->with('success', 'Post créé avec succès.');
     }
+
 
     public function show(Post $Post)
     {
@@ -91,8 +90,9 @@ dd($formData);
     }
 
 
-     public function update(Request $request, string $id)
-   {
+
+public function update(Request $request, string $id)
+{
     $post = Post::findOrFail($id);
 
     $formData = $request->validate([
@@ -104,8 +104,9 @@ dd($formData);
         'page_name' => 'nullable|string|max:255',
         'publish_date' => 'required|date',
         'colon_hashtags' => 'nullable|string',
-        'email_send' => 'nullable|boolean',
+        'email_sent' => 'nullable|boolean',
     ]);
+
 
     if ($request->hasFile('media')) {
         if ($post->media_path && Storage::exists('public/' . $post->media_path)) {
@@ -115,20 +116,11 @@ dd($formData);
     } else {
         $formData['media_path'] = $post->media_path;
     }
-
-
-
-
+    $formData['email_sent'] = $request->has('email_sent');
     $post->update($formData);
-
-    if ($request->input('email_send')) {
-        if ($post->user) {
-            Mail::to($post->user->email)->send(new PostAddedMail($post));
-        }
-    }
-
     return redirect()->route('Post.index')->with('success', 'Post mis à jour avec succès.');
 }
+
 
 
     public function destroy(Post $Post)

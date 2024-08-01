@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Post Form')
+@section('title', 'Create Post')
 
 @section('content')
 <div class="container mt-5">
@@ -49,9 +49,8 @@
                 <!-- Publish Date -->
                 <div class="mb-3">
                     <label for="inputPublishDate" class="form-label">Date de publication</label>
-                    <input type="date" name="publish_date" class="form-control" id="inputPublishDate" >
+                    <input type="date" name="publish_date" class="form-control" id="inputPublishDate" value="{{ old('publish_date') }}">
                </div>
-
 
                 <!-- Client Selection -->
                 <div class="mb-3">
@@ -78,20 +77,18 @@
                     <label for="inputPageName" class="form-label">Nom de la page</label>
                     <input type="text" name="page_name" class="form-control" id="inputPageName" value="{{ old('page_name') }}" placeholder="Entrez le nom de la page">
                 </div>
-                 <!-- Colon Hashtags -->
-                 <div class="mb-3">
+
+                <!-- Colon Hashtags -->
+                <div class="mb-3">
                     <label for="inputColonHashtags" class="form-label">Hashtags avec deux-points</label>
                     <input type="text" name="colon_hashtags" class="form-control" id="inputColonHashtags" value="{{ old('colon_hashtags') }}" placeholder="Entrez les hashtags, séparés par des deux-points">
                 </div>
 
-                  <!-- Send Email Checkbox -->
-
-                  <div class="mb-3 form-check">
+                <!-- Send Email Checkbox -->
+                <div class="mb-3 form-check">
                     <input type="checkbox" name="email_sent" class="form-check-input" value="1" id="sendEmailCheckbox" {{ old('email_sent') ? 'checked' : '' }}>
                     <label class="form-check-label" for="sendEmailCheckbox">Envoyer un email au client</label>
                 </div>
-
-
 
                 <!-- Submit Button -->
                 <div class="text-right" style="margin-top: 30;">

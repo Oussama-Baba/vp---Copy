@@ -34,8 +34,7 @@ class PostAddedMail extends Mailable
                     ->with([
                         'title' => $this->post->title,
                         'description' => $this->post->description,
-                        // Add other data you want to pass to the view
+
                     ]);
     }
 }
-

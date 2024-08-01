@@ -1,13 +1,13 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Modifier le Post')
+@section('title', 'Edit Post')
 
 @section('content')
 <div class="container mt-5">
     <div class="row justify-content-center">
         <!-- Display validation errors -->
         @if ($errors->any())
-            <div class="col-12 mb-4">
+            <div class="col-12">
                 <div class="alert alert-danger">
                     <ul class="mb-0">
                         @foreach ($errors->all() as $error)
@@ -38,24 +38,19 @@
                 <!-- Description -->
                 <div class="mb-3">
                     <label for="inputDescription" class="form-label">Description</label>
-                    <textarea name="description" class="form-control" id="inputDescription" rows="3" placeholder="Enter the description">{{ old('description', $post->description) }}</textarea>
+                    <textarea name="description" class="form-control" id="inputDescription" rows="4" placeholder="Enter the description">{{ old('description', $post->description) }}</textarea>
                 </div>
 
                 <!-- Media -->
                 <div class="mb-3">
                     <label for="inputPhoto" class="form-label">Télécharger un média</label>
                     <input type="file" name="media" class="form-control" id="inputPhoto" accept="image/*,video/*">
-                    @if ($post->media_path)
-                        <div class="mt-2">
-                            <img src="{{ asset('storage/' . $post->media_path) }}" alt="Media" class="img-thumbnail" style="width: 100px; height: auto;">
-                        </div>
-                    @endif
                 </div>
 
                 <!-- Publish Date -->
                 <div class="mb-3">
                     <label for="inputPublishDate" class="form-label">Date de publication</label>
-                    <input type="date" name="publish_date" class="form-control" id="inputPublishDate" value="{{ old('publish_date', $post->publish_date) }}">
+                    <input type="date" name="publish_date" class="form-control" id="inputPublishDate" value="{{ old('publish_date', $post->publish_date)}}">
                </div>
 
                 <!-- Client Selection -->
@@ -84,15 +79,21 @@
                     <input type="text" name="page_name" class="form-control" id="inputPageName" value="{{ old('page_name', $post->page_name) }}" placeholder="Entrez le nom de la page">
                 </div>
 
-                 <!-- Colon Hashtags -->
-                 <div class="mb-3">
+                <!-- Colon Hashtags -->
+                <div class="mb-3">
                     <label for="inputColonHashtags" class="form-label">Hashtags avec deux-points</label>
-                    <input type="text" name="colon_hashtags" class="form-control" id="inputColonHashtags" value="{{ old('colon_hashtags') }}" placeholder="Entrez les hashtags, séparés par des deux-points">
+                    <input type="text" name="colon_hashtags" class="form-control" id="inputColonHashtags" value="{{ old('colon_hashtags', $post->colon_hashtags) }}" placeholder="Entrez les hashtags, séparés par des deux-points">
+                </div>
+
+                <!-- Send Email Checkbox -->
+                <div class="mb-3 form-check">
+                    <input type="checkbox" name="email_sent" class="form-check-input" value="1" id="sendEmailCheckbox" {{ old('email_sent', $post->email_sent) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="sendEmailCheckbox">Envoyer un email au client</label>
                 </div>
 
                 <!-- Submit Button -->
                 <div class="text-right" style="margin-top: 30;">
-                    <button type="submit" class="btn btn-success">Modifier le post</button>
+                    <button type="submit" class="btn btn-success">Mettre à jour le post</button>
                 </div>
             </form>
         </div>

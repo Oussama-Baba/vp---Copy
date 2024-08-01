@@ -6,6 +6,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
+use App\Mail\PostAddedMail;
+use App\Models\Post;
+use Illuminate\Support\Facades\Mail;
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,7 +37,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/posts/{post}/decline', [HomeController::class, 'decline'])->name('posts.decline');
     Route::patch('/posts/{post}/reset', [HomeController::class, 'reset'])->name('posts.reset');
 
-    Route::post('/send-email', [PostController::class, 'sendEmail'])->name('send.email');
 
 
 
