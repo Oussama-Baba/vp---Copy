@@ -45,12 +45,12 @@
                 @foreach ($comments as $comment)
                     <tr>
                         <td>{{ $comment->id }}</td>
-                        <td>{{ $comment->post->title }}</td>
-                        <td>{{ Str::limit($comment->comment, 50) }}</td>
+                        <td>{{ $comment->post->title ?? 'N/A' }}</td>
+                        <td>{{ Str::limit($comment->comment, 50) }} </td>
                         <td>{{ $comment->user->name }}</td>
                         <td>{{ $comment->created_at->format('Y-m-d H:i:s') }}</td>
                         <td>
-                            <a  class="view" title="Voir" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+
                             <a href="#" class="delete" title="Supprimer" data-toggle="tooltip" data-id="{{ $comment->id }}"><i class="material-icons">&#xE872;</i></a>
                             <form id="delete-form-{{ $comment->id }}" action="{{ route('comments.destroy', $comment->id) }}" method="POST" style="display: none;">
                                 @csrf

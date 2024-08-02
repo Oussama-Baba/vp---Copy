@@ -11,8 +11,17 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Mail;
 
 Route::get('/', function () {
-    return view('welcome');
+    if (auth()->check()) {
+        return redirect()->route('home.index');
+    } else {
+        return redirect()->route('login');
+    }
 });
+
+// Authentication routes
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
 
 
 
@@ -36,9 +45,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/posts/{post}/accept', [HomeController::class, 'accept'])->name('posts.accept');
     Route::patch('/posts/{post}/decline', [HomeController::class, 'decline'])->name('posts.decline');
     Route::patch('/posts/{post}/reset', [HomeController::class, 'reset'])->name('posts.reset');
-
-
-
 
 
 

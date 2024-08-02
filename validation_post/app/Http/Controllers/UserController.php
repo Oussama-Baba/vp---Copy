@@ -29,11 +29,14 @@ class UserController extends Controller
         return view('admincontent.table.user', compact('users'));
     }
 
+
     public function show(string $id): view
     {
         $user = User::findOrFail($id);
         return view('admincontent.showcart.user_cart', compact('user'));
+
     }
+
     public function create()
     {
         return view('admincontent.form.user_form');
@@ -58,6 +61,7 @@ class UserController extends Controller
      {
         $user = User::findOrFail($id);
          return view('admincontent.form.user_updat_form', compact('user'));
+
      }
 
      public function update(UserRequest $request, string $id)

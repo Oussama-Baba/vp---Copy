@@ -14,13 +14,13 @@
             <span class="slider"></span>
         </label>
     </div>
-    <span>Show Only Processing</span>
+    <span>"Afficher uniquement en traitement"</span>
 </form>
 </div>
 
 
 @if($posts->isEmpty())
-    <p>Your cart is empty.</p>
+    <p>"Votre panier est vide."</p>
 @else
 
     @foreach($posts as $post)
@@ -53,7 +53,7 @@
                                 @elseif (Str::endsWith($post->media_path, ['.mp4']))
                                     <video width="100%" controls class="cover zoom">
                                         <source src="{{ asset('storage/' . $post->media_path) }}" type="video/mp4">
-                                        Your browser does not support the video tag.
+                                            "Votre navigateur ne prend pas en charge la balise vidéo."
                                     </video>
                                 @endif
                             @else
@@ -101,7 +101,7 @@
                             <form action="{{ route('posts.reset', $post) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
-                                <button type="submit" class="btn btn-warning btn-lg">Reset</button>
+                                <button type="submit" class="btn btn-warning btn-lg">Réinitialiser</button>
                             </form>
                         </div>
                     @else
@@ -329,7 +329,7 @@
     }
     .btn-warning{
         background-color: #f7f31f;
-        color: white;
+        color: rgb(0, 0, 0);
     }
     .btn-warning:hover {
         background-color: #e9e629;

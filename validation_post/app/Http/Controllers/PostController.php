@@ -67,9 +67,6 @@ class PostController extends Controller
         }
         $formData['email_sent'] = $request->has('email_sent');
         $post = Post::create($formData);
-
-
-
         if ($formData['email_sent']) {
             Mail::to($post->user->email)->send(new PostAddedMail($post));
         }
@@ -90,8 +87,6 @@ class PostController extends Controller
         $clients = User::where('role', 'client')->get();
         return view('admincontent.form.post_updat_form', compact('post', 'clients'));
     }
-
-
 
 public function update(Request $request, string $id)
 {
@@ -118,12 +113,15 @@ public function update(Request $request, string $id)
     } else {
         $formData['media_path'] = $post->media_path;
     }
+    $oldEmailSent = $post->email_sent;
     $formData['email_sent'] = $request->has('email_sent');
     $post->update($formData);
+
+    if ($formData['email_sent'] && !$oldEmailSent) {
+        Mail::to($post->user->email)->send(new PostAddedMail($post));
+    }
     return redirect()->route('Post.index')->with('success', 'Post mis à jour avec succès.');
 }
-
-
 
     public function destroy(Post $Post)
     {

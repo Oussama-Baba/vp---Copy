@@ -7,12 +7,12 @@
     <title>Document</title>
 </head>
 <body>
-    <p>Hello {{ $post->user->name }},</p>
-    <p>A new post has been added. Please check the platform to review it.</p>
-    <p>Post Title: {{ $post->title }}</p>
-    <p>Post Description: {{ $post->description }}</p>
-    <p><a href="{{ url('/') }}">View Post</a></p>
-    <p>Thank you!</p>
+    <p>Bonjour {{ $post->user->name }},</p>
+    <p>Un nouveau post a été ajouté. Veuillez vérifier la plateforme pour le revoir.</p>
+    <p>Titre du Post : {{ $post->title }}</p>
+    <p>Description du Post : {{ $post->description }}</p>
+    <p><a href="{{ url('/login') }}">Voir le Post</a></p>
+    <p>Merci !</p>
 
 </body>
 </html>

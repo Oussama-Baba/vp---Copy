@@ -14,18 +14,7 @@
             </div>
         </form>
         <ul class="navbar-nav">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="flag-icon flag-icon-us mt-1" title="us"></i> <span class="font-weight-medium ml-1 mr-1 d-none d-md-inline-block">English</span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="languageDropdown">
-    <a href="javascript:;" class="dropdown-item py-2"><i class="flag-icon flag-icon-us" title="us" id="us"></i> <span class="ml-1"> English </span></a>
-    <a href="javascript:;" class="dropdown-item py-2"><i class="flag-icon flag-icon-fr" title="fr" id="fr"></i> <span class="ml-1"> French </span></a>
-    <a href="javascript:;" class="dropdown-item py-2"><i class="flag-icon flag-icon-de" title="de" id="de"></i> <span class="ml-1"> German </span></a>
-    <a href="javascript:;" class="dropdown-item py-2"><i class="flag-icon flag-icon-pt" title="pt" id="pt"></i> <span class="ml-1"> Portuguese </span></a>
-    <a href="javascript:;" class="dropdown-item py-2"><i class="flag-icon flag-icon-es" title="es" id="es"></i> <span class="ml-1"> Spanish </span></a>
-                </div>
-</li>
+
             <li class="nav-item dropdown nav-apps">
                 <a class="nav-link dropdown-toggle" href="#" id="appsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i data-feather="grid"></i>
@@ -188,47 +177,69 @@
                     </div>
                 </div>
             </li>
+
+            @if (Auth::check())
             <li class="nav-item dropdown nav-profile">
                 <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="https://via.placeholder.com/30x30" alt="profile">
+                    @if ($user->logo)
+                    <img src="{{ asset('storage/' . $user->logo) }}"  />
+                    @else
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="Avatar"  />
+                    @endif
                 </a>
                 <div class="dropdown-menu" aria-labelledby="profileDropdown">
                     <div class="dropdown-header d-flex flex-column align-items-center">
                         <div class="figure mb-3">
-                            <img src="https://via.placeholder.com/80x80" alt="">
+                            @if ($user->logo)
+                            <img src="{{ asset('storage/' . $user->logo) }}"  />
+                          @else
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="Avatar"  />
+                          @endif
+
+
                         </div>
+
                         <div class="info text-center">
-                            <p class="name font-weight-bold mb-0">Amiah Burton</p>
-                            <p class="email text-muted mb-3">amiahburton@gmail.com</p>
+                            <p class="name font-weight-bold mb-0"> {{ Auth::user()->name }}</p>
+                            <p class="email text-muted mb-3"> {{ Auth::user()->email }}</p>
                         </div>
+
                     </div>
                     <div class="dropdown-body">
                         <ul class="profile-nav p-0 pt-3">
                             <li class="nav-item">
-                                <a href="pages/general/profile.html" class="nav-link">
+                                <a href="{{ route('User.show',  $user->id) }}" class="nav-link">
                                     <i data-feather="user"></i>
                                     <span>Profile</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="javascript:;" class="nav-link">
+                                <a href="{{ route('User.edit',  $user->id) }}" class="nav-link">
                                     <i data-feather="edit"></i>
                                     <span>Edit Profile</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="javascript:;" class="nav-link">
-                                    <i data-feather="repeat"></i>
-                                    <span>Switch User</span>
-                                </a>
+                                <form id="logout-form" method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <a href="javascript:;" class="nav-link" onclick="document.getElementById('logout-form').submit();">
+                                        <i data-feather="repeat"></i>
+                                        <span>Switch User</span>
+                                    </a>
+                                </form>
                             </li>
+
                             <li class="nav-item">
-                                <a href="javascript:;" class="nav-link">
+                                <form id="logout-form" method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                <a href="javascript:;" class="nav-link"onclick="document.getElementById('logout-form').submit();">
                                     <i data-feather="log-out"></i>
                                     <span>Log Out</span>
                                 </a>
+                            </form>
                             </li>
                         </ul>
+                        @endif
                     </div>
                 </div>
             </li>
