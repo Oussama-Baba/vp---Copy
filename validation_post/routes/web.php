@@ -9,6 +9,8 @@ use App\Http\Controllers\PostController;
 use App\Mail\PostAddedMail;
 use App\Models\Post;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
+
 
 Route::get('/', function () {
     if (auth()->check()) {
